@@ -39,7 +39,7 @@ The wrapper takes ownership of the dynamically allocated objects using `std::uni
 #include "functions.h"
 
 int main() {
-    // 1. Variable initialization (No raw pointers visible!)
+    // 1. Variable initialization
     Type varInt = new IntObj{10};
     Type varFloat = new FloatObj{2.5};
     Type varStr = new StringObj{"C++ "};
