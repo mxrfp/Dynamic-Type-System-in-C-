@@ -1,0 +1,25 @@
+{
+    "int" : {
+        "supported" : true,
+        "finished_implementation" : false,
+        "supported_operations" : ["add", "sub", "mul", "div"]
+    },
+
+    "float" : {
+        "supported" : true,
+        "finished_implementation" : true,
+        "supported_operations" : ["add", "sub", "mul", "div"]
+    },
+
+    "string" : {
+        "supported" : true,
+        "finished_implementation" : true,
+        "supported_operations" : ["add", "sub", "mul", "div"]
+    },
+
+    "bool" : {
+        "supported" : false,
+        "finished_implementation" : false,
+        "supported_operations" : []
+    }
+}

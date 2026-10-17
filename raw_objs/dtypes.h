@@ -1,0 +1,180 @@
+#pragma once
+#include <string>
+
+/*
+Functions that return nullptr are not implemented.
+-> current:
+    - all string
+*/
+
+struct Type;
+struct FloatObj;
+struct StringObj;
+struct IntObj;
+
+struct Object {
+    private:
+        std::string type_{""};
+        virtual const std::string* getType_() const {return &type_;}
+    public:
+        //for functions.h
+        friend bool isinstance(const Object* other, const std::string& metadata);
+        friend std::string type(const Object* other);
+        friend Type;
+
+        //first dispatch methods
+        virtual Object* add(const Object* other) const {return nullptr;};
+        virtual Object* sub(const Object* other) const {return nullptr;};
+        virtual Object* mul(const Object* other) const {return nullptr;};
+        virtual Object* div(const Object* other) const {return nullptr;};
+        //end fist dispatch
+
+        //second dispatch
+        virtual Object* radd(const IntObj* other) const {return nullptr;}; //int add
+        virtual Object* radd(const FloatObj* other) const {return nullptr;}; //float add
+        virtual Object* radd(const StringObj* other) const {return nullptr;}; //string add
+        
+        virtual Object* rsub(const IntObj* other) const {return nullptr;}; //int sub
+        virtual Object* rsub(const FloatObj* other) const {return nullptr;}; //float sub
+        virtual Object* rsub(const StringObj* other) const {return nullptr;}; //string sub
+
+        virtual Object* rmul(const IntObj* other) const {return nullptr;}; //int mul
+        virtual Object* rmul(const FloatObj* other) const {return nullptr;}; //float mul
+        virtual Object* rmul(const StringObj* other) const {return nullptr;}; //string mul
+
+        virtual Object* rdiv(const IntObj* other) const {return nullptr;}; //int div
+        virtual Object* rdiv(const FloatObj* other) const {return nullptr;}; //float div
+        virtual Object* rdiv(const StringObj* other) const {return nullptr;}; //string div
+
+        //GET
+
+        virtual const long long int* getInt() const {return nullptr;} //get int
+        virtual const long double* getFloat() const {return nullptr;} //get float
+        virtual const std::string* getString() const {return nullptr;} //get string
+
+        //OTHER
+
+        virtual ~Object() = default;
+
+};
+
+struct IntObj : Object {
+    private:
+        long long int data{};
+        std::string type_{"int"};
+        virtual const std::string* getType_() const override {return &type_;}
+    public:
+
+        IntObj() = default;
+        IntObj(long long int data) : data{data} {}
+        virtual Object* add(const Object* other) const override;
+        virtual Object* sub(const Object* other) const override;
+        virtual Object* mul(const Object* other) const override;
+        virtual Object* div(const Object* other) const override;
+        
+        //ADD
+        virtual Object* radd(const IntObj* other) const override;
+        virtual Object* radd(const FloatObj* other) const override;
+        virtual Object* radd(const StringObj* other) const override; 
+
+        //SUB 
+        virtual Object* rsub(const IntObj* other) const override;
+        virtual Object* rsub(const FloatObj* other) const override;
+        virtual Object* rsub(const StringObj* other) const override;
+
+        //MUL
+        virtual Object* rmul(const IntObj* other) const override;
+        virtual Object* rmul(const FloatObj* other) const override;
+        virtual Object* rmul(const StringObj* other) const override;
+
+        //DIV
+        virtual Object* rdiv(const IntObj* other) const override;
+        virtual Object* rdiv(const FloatObj* other) const override;
+        virtual Object* rdiv(const StringObj* other) const override;
+
+        //GET
+        virtual const long long int* getInt() const override {return &data;} //get int
+        virtual const std::string* getString() const override;
+        virtual const long double* getFloat() const override;
+};
+
+
+struct FloatObj : Object {
+    private:
+        long double data{};
+        std::string type_{"float"};
+        virtual const std::string* getType_() const override {return &type_;}
+    public:
+
+        FloatObj() = default;
+        FloatObj(long double data) : data{data} {}
+        virtual Object* add(const Object* other) const override;
+        virtual Object* sub(const Object* other) const override;
+        virtual Object* mul(const Object* other) const override;
+        virtual Object* div(const Object* other) const override;
+        
+        //ADD
+        virtual Object* radd(const IntObj* other) const override;
+        virtual Object* radd(const FloatObj* other) const override;
+        virtual Object* radd(const StringObj* other) const override;
+
+        //SUB 
+        virtual Object* rsub(const IntObj* other) const override;
+        virtual Object* rsub(const FloatObj* other) const override;
+        virtual Object* rsub(const StringObj* other) const override;
+
+        //MUL
+        virtual Object* rmul(const IntObj* other) const override;
+        virtual Object* rmul(const FloatObj* other) const override;
+        virtual Object* rmul(const StringObj* other) const override;
+
+        //DIV
+        virtual Object* rdiv(const IntObj* other) const override;
+        virtual Object* rdiv(const FloatObj* other) const override;
+        virtual Object* rdiv(const StringObj* other) const override;
+
+        //GET
+        virtual const long double* getFloat() const override {return &data;} //get float
+        virtual const std::string* getString() const override;
+        virtual const long long int* getInt() const override;
+};
+
+struct StringObj : Object {
+    private:
+        std::string data{};
+        std::string type_{"string"};
+        virtual const std::string* getType_() const override {return &type_;}
+    public:
+
+        StringObj() = default;
+        StringObj(const std::string& data);
+        virtual Object* add(const Object* other) const override;
+        virtual Object* sub(const Object* other) const override;
+        virtual Object* mul(const Object* other) const override;
+        virtual Object* div(const Object* other) const override;
+        
+        //ADD
+        virtual Object* radd(const IntObj* other) const override;
+        virtual Object* radd(const FloatObj* other) const override;
+        virtual Object* radd(const StringObj* other) const override;
+
+        //SUB 
+        virtual Object* rsub(const IntObj* other) const override;
+        virtual Object* rsub(const FloatObj* other) const override;
+        virtual Object* rsub(const StringObj* other) const override;
+
+        //MUL
+        virtual Object* rmul(const IntObj* other) const override;
+        virtual Object* rmul(const FloatObj* other) const override;
+        virtual Object* rmul(const StringObj* other) const override;
+
+        //DIV
+        virtual Object* rdiv(const IntObj* other) const override;
+        virtual Object* rdiv(const FloatObj* other) const override;
+        virtual Object* rdiv(const StringObj* other) const override;
+
+        //GET
+        virtual const std::string* getString() const override {return &data;} //get string
+        virtual const long long int* getInt() const override;
+        virtual const long double* getFloat() const override;
+};
