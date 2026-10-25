@@ -2,24 +2,24 @@
     "int" : {
         "supported" : true,
         "finished_implementation" : false,
-        "supported_operations" : ["add", "sub", "mul", "div"]
+        "supported_operations" : ["add", "sub", "mul", "div", "min", "max", "eq"]
     },
 
     "float" : {
         "supported" : true,
         "finished_implementation" : true,
-        "supported_operations" : ["add", "sub", "mul", "div"]
+        "supported_operations" : ["add", "sub", "mul", "div", "min", "max", "eq"]
     },
 
     "string" : {
         "supported" : true,
         "finished_implementation" : true,
-        "supported_operations" : ["add", "sub", "mul", "div"]
+        "supported_operations" : ["add", "sub", "mul", "div", "min", "max", "eq"]
     },
 
     "bool" : {
-        "supported" : false,
-        "finished_implementation" : false,
-        "supported_operations" : []
+        "supported" : true,
+        "finished_implementation" : true,
+        "supported_operations" : ["add", "sub", "mul", "div", "min", "max", "eq"]
     }
 }

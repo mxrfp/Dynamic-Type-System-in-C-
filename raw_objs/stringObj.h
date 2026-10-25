@@ -6,7 +6,7 @@
 #include <stdexcept>
 
 StringObj::StringObj(const std::string& d) {
-    if (data.size() >= MAX_STRING_LENGTH) throw std::overflow_error("String length is greater than MAX_STRING_LENGTH.");
+    if (d.size() >= MAX_STRING_LENGTH) throw std::overflow_error("String length is greater than MAX_STRING_LENGTH.");
     data = d;
 }
 
@@ -36,7 +36,6 @@ Object* StringObj::mul(const Object* other) const {
     return other->rmul(this);
 }
 
-
 //-----------*SECOND DISPATCH IMPLEMENTATION*-----------
 
 //ADD STRING, STRING
@@ -59,6 +58,13 @@ Object* StringObj::radd(const FloatObj* other) const {
     return nullptr;
 }
 
+//ADD STRING, BOOL
+
+Object* StringObj::radd(const BoolObj* other) const {
+    throw std::logic_error("Cannot add types 'bool' and 'string'.");
+    return nullptr;
+}
+
 //SUB STRING, STRING
 
 Object* StringObj::rsub(const StringObj* other) const {
@@ -77,6 +83,13 @@ Object* StringObj::rsub(const IntObj* other) const {
 
 Object* StringObj::rsub(const FloatObj* other) const {
     throw std::logic_error("Cannot subtract types 'float' and 'string'.");
+    return nullptr;
+}
+
+//SUB STRING, BOOL
+
+Object* StringObj::rsub(const BoolObj* other) const {
+    throw std::logic_error("Cannot subtract types 'bool' and 'string'.");
     return nullptr;
 }
 
@@ -104,6 +117,12 @@ Object* StringObj::rmul(const FloatObj* other) const {
     }
 }
 
+//MUL STRING, BOOL
+
+Object* StringObj::rmul(const BoolObj* other) const {
+    return IntObj{static_cast<long long int>(*other->getBool())}.mul(this);
+}
+
 //DIV STRING, STRING
 
 Object* StringObj::rdiv(const StringObj* other) const {
@@ -125,6 +144,34 @@ Object* StringObj::rdiv(const FloatObj* other) const {
     return nullptr;
 }
 
+//DIV STRING, BOOL
+
+Object* StringObj::rdiv(const BoolObj* other) const {
+    throw std::logic_error("Cannot divide types 'bool' and 'string'.");
+    return nullptr;
+}
+
+//-----------*OTHER*-----------
+
+std::string StringObj::str() const {
+    return data;
+}
+
+bool StringObj::boolean() const {
+    return data != "";
+}
+
+long double StringObj::floatD() const {
+    std::optional<float> found = parseFloat(data);
+    if (!found) {
+        throw std::logic_error("Cannot convert an invalid string to float/int.");
+    } else return found.value();
+}
+
+long long int StringObj::intD() const {
+    return static_cast<long long int>(floatD());
+}
+
 //-----------*INVALID FUNCTIONS*-----------
 
 const long long int* StringObj::getInt() const {
@@ -134,5 +181,10 @@ const long long int* StringObj::getInt() const {
 
 const long double* StringObj::getFloat() const {
     throw std::logic_error("Cannot extract 'float' from 'string'.");
+    return nullptr;
+}
+
+const bool* StringObj::getBool() const {
+    throw std::logic_error("Cannot extract 'bool' from 'string'.");
     return nullptr;
 }

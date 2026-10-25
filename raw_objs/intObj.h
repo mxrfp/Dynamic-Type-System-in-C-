@@ -30,7 +30,6 @@ Object* IntObj::mul(const Object* other) const {
     return other->rmul(this);
 }
 
-
 //-----------*SECOND DISPATCH IMPLEMENTATION*-----------
 
 //ADD INT, INT
@@ -52,6 +51,12 @@ Object* IntObj::radd(const StringObj* other) const {
     return nullptr;
 }
 
+//ADD INT, BOOL
+
+Object* IntObj::radd(const BoolObj* other) const {
+    return new IntObj{*other->getInt() + data};
+}
+
 //SUB INT, INT
 
 Object* IntObj::rsub(const IntObj* other) const {
@@ -71,6 +76,12 @@ Object* IntObj::rsub(const StringObj* other) const {
     return nullptr;
 }
 
+//SUB INT, BOOL
+
+Object* IntObj::rsub(const BoolObj* other) const {
+    return new IntObj{*other->getInt() - data};
+}
+
 //MUL INT, INT
 
 Object* IntObj::rmul(const IntObj* other) const {
@@ -88,6 +99,12 @@ Object* IntObj::rmul(const FloatObj* other) const {
 Object* IntObj::rmul(const StringObj* other) const {
     if ((*other->getString()).size() * data > MAX_STRING_LENGTH) throw std::overflow_error("String length is greater than MAX_STRING_LENGTH.");
     return new StringObj{mulString(*other->getString(), data)};
+}
+
+//MUL INT, BOOL
+
+Object* IntObj::rmul(const BoolObj* other) const {
+    return new IntObj{*other->getBool() * data};
 }
 
 //DIV INT, INT
@@ -110,6 +127,30 @@ Object* IntObj::rdiv(const StringObj* other) const {
     return nullptr;
 }
 
+//DIV INT, BOOL
+
+Object* IntObj::rdiv(const BoolObj* other) const {
+    return new IntObj{*other->getInt() / data};
+}
+
+//-----------*OTHER*-----------
+
+std::string IntObj::str() const {
+    return std::to_string(data);
+}
+
+bool IntObj::boolean() const {
+    return data != 0;
+}
+
+long double IntObj::floatD() const {
+    return static_cast<long double>(data);
+}
+
+long long int IntObj::intD() const {
+    return data;
+}
+
 //-----------*INVALID FUNCTIONS*-----------
 
 const std::string* IntObj::getString() const {
@@ -119,5 +160,10 @@ const std::string* IntObj::getString() const {
 
 const long double* IntObj::getFloat() const {
     throw std::logic_error("Cannot extract 'float' from 'int'.");
+    return nullptr;
+}
+
+const bool* IntObj::getBool() const {
+    throw std::logic_error("Cannot extract 'bool' from 'int'.");
     return nullptr;
 }

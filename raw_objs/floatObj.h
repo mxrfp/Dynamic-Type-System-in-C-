@@ -1,6 +1,7 @@
 #pragma once
 #include "dtypes.h"
 #include "basic_operations.h"
+#include "sys_vars.h"
 #include <stdexcept>
 
 //-----------*FIRST DISPATCH IMPLEMENTATION*-----------
@@ -50,6 +51,12 @@ Object* FloatObj::radd(const StringObj* other) const {
     return nullptr;
 }
 
+//ADD FLOAT, BOOL   
+
+Object* FloatObj::radd(const BoolObj* other) const {
+    return new FloatObj{static_cast<long double>(*other->getBool()) + data};
+}
+
 //SUB FLOAT, FLOAT
 
 Object* FloatObj::rsub(const FloatObj* other) const {
@@ -67,6 +74,12 @@ Object* FloatObj::rsub(const IntObj* other) const {
 Object* FloatObj::rsub(const StringObj* other) const {
     throw std::logic_error("Cannot subtract types 'string' and 'float'.");
     return nullptr;
+}
+
+//SUB FLOAT, BOOL   
+
+Object* FloatObj::rsub(const BoolObj* other) const {
+    return new FloatObj{static_cast<long double>(*other->getBool()) - data};
 }
 
 //MUL FLOAT, FLOAT
@@ -89,6 +102,12 @@ Object* FloatObj::rmul(const StringObj* other) const {
     return new StringObj{mulString(*other->getString(), int_data)};
 }
 
+//MUL FLOAT, BOOL   
+
+Object* FloatObj::rmul(const BoolObj* other) const {
+    return new FloatObj{static_cast<long double>(*other->getBool()) * data};
+}
+
 //DIV FLOAT, FLOAT
 
 Object* FloatObj::rdiv(const FloatObj* other) const {
@@ -108,6 +127,30 @@ Object* FloatObj::rdiv(const StringObj* other) const {
     return nullptr;
 }
 
+//DIV FLOAT, BOOL   
+
+Object* FloatObj::rdiv(const BoolObj* other) const {
+    return new FloatObj{static_cast<long double>(*other->getBool()) / data};
+}
+
+//-----------*OTHER*-----------
+
+std::string FloatObj::str() const {
+    return std::to_string(data);
+}
+
+bool FloatObj::boolean() const {
+    return data != 0;
+}
+
+long double FloatObj::floatD() const {
+    return data;
+}
+
+long long int FloatObj::intD() const {
+    return static_cast<long long int>(data);
+}
+
 //-----------*INVALID FUNCTIONS*-----------
 
 const std::string* FloatObj::getString() const {
@@ -117,5 +160,10 @@ const std::string* FloatObj::getString() const {
 
 const long long int* FloatObj::getInt() const {
     throw std::logic_error("Cannot extract 'int' from 'float'.");
+    return nullptr;
+}
+
+const bool* FloatObj::getBool() const {
+    throw std::logic_error("Cannot extract 'bool' from 'float'.");
     return nullptr;
 }

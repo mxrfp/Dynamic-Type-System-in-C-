@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
-#include <stdexcept>
+#include <charconv>
+#include <optional>
+
 
 //function used for string multiplication
 
@@ -15,3 +17,12 @@ std::string mulString(const std::string& s, const long long int& n) {
 
     return newS;
 }
+
+std::optional<float> parseFloat(const std::string& sv) {
+    float f = 0.0f;
+    auto [ptr, ec] = std::from_chars(sv.data(), sv.data() + sv.size(), f);
+    if (ec != std::errc{} || ptr != sv.data() + sv.size())
+        return std::nullopt;
+    return f;
+}
+

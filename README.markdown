@@ -19,17 +19,18 @@ To hide raw pointers and manage memory automatically, the system uses a polymorp
 The wrapper takes ownership of the dynamically allocated objects using `std::unique_ptr`. This entirely eliminates memory leaks and the need for manual `delete` operations.
 
 ## Features
-* **Python-like Syntax:** Seamless operations using standard C++ operators (`+`, `-`, `*`, `/`) via operator overloading.
+* **Python-like Syntax:** Seamless operations using standard C++ operators (`+`, `-`, `*`, `/`, `==`, `<`, `>`, `<=`, `>=`) via operator overloading.
 * **Automatic Memory Management:** Zero memory leaks and no manual pointer management thanks to `std::unique_ptr`.
 * **Dynamic Resolution:** Cross-type mathematical operations (e.g., Int + Float returns Float, String * Int returns repeated String).
-* **Type Introspection:** Built-in Python-like functions such as `isinstance()` and `type()` to inspect dynamic metadata at runtime.
+* **Type Conversion & I/O:** Built-in functions (`boolean()`, `str()`, `intT()`, `floatT()`, `print()`, `input()`) for type casting and standard I/O operations.
+* **Type Introspection:** Built-in Python-like functions such as `isinstance()` and `type()` to inspect dynamic metadata at runtime (all functions in `functions.h` return a `Type`).
 * **Type Safety & Exceptions:** Invalid operations (e.g., String + Float) throw explicit standard C++ exceptions (`std::logic_error`, `std::overflow_error`).
 
 ## Project Structure
 * `TypeAll.h` / `pointer_wrapper.h`: Contains the `Type` wrapper class managing memory and operator overloading.
 * `dtypes.h`: Contains the abstract base class `Object` and the forward declarations.
-* `intObj.h` / `floatObj.h` / `stringObj.h`: Implementations of the specific data types and dispatch logic.
-* `functions.h`: Contains high-level helper functions like `isinstance()` and `type()`.
+* `intObj.h` / `floatObj.h` / `stringObj.h` / `boolObj.h`: Implementations of the specific data types and dispatch logic.
+* `functions.h`: Contains high-level helper functions like `isinstance()`, `type()`, `boolean()`, `str()`, `intT()`, `floatT()`, `print()`, and `input()` (all returning a `Type`).
 * `basic_operations.h`: Contains pure functional logic decoupled from objects.
 
 ## Usage Example
@@ -60,17 +61,18 @@ int main() {
 
     // 5. Automatic Memory Cleanup
 }
+
 ```
 
-Current Status and Roadmap
+## Current Status and Roadmap
 
 According to the current tracking configuration:
 
-- [x] Int: Support for add, sub, mul, div.
-- [x] Float: Support for add, sub, mul, div.
-- [x] String: Full implementation (including multiplication by non-decimal
-  floats).
-- [x] Memory Management: Migrated to std::unique_ptr wrapper.
-- [ ] Bool: Planned.
-
+* [x] Int: Support for add, sub, mul, div.
+* [x] Float: Support for add, sub, mul, div.
+* [x] String: Full implementation (including multiplication by non-decimal floats).
+* [x] Memory Management: Migrated to std::unique_ptr wrapper.
+* [x] Bool: Total support added.
+* [x] Operations: Support added for `==`, `<`, `>`, `<=`, `>=`.
+* [x] Type Conversions & I/O: Added `boolean`, `str`, `intT`, `floatT`, `print`, and `input` returning a `Type`.
 
